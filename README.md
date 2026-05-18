@@ -6,7 +6,7 @@ Construit avec HTML, CSS et JavaScript pur — sans aucune librairie externe.
 ---
 
 ##  Démo
-
+https://israazayene.github.io/cipherguard-password-analyzer/ 
 > Télécharge les fichiers et ouvre `index.html` dans ton navigateur. C'est tout !
 
 ---
