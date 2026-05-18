@@ -71,11 +71,4 @@ Aucune installation, aucun serveur, aucune dépendance requise.
 - Transformer en extension navigateur
 
 ---
-
-##  Auteur
-
-**Ton Nom**  
-[LinkedIn](#) · [GitHub](#) · [Email](#)
----
-
 > Projet personnel réalisé dans le cadre de ma formation en informatique.
