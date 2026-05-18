@@ -1,0 +1,933 @@
+/* ═══════════════════════════════════════════════════════════════
+   CipherGuard — style.css
+   Thème : Cybersécurité Dark Mode
+   Auteur : [Votre Nom]
+   Description : Styles complets pour l'analyseur de force de mot
+                 de passe. Architecture BEM, variables CSS, responsive.
+════════════════════════════════════════════════════════════════ */
+
+/* ────────────────────────────────────────────────────────────────
+   1. VARIABLES GLOBALES (Design Tokens)
+────────────────────────────────────────────────────────────────── */
+:root {
+  /* Couleurs principales */
+  --bg-base:       #080b10;      /* Fond ultra-sombre */
+  --bg-panel:      #0d1117;      /* Fond du panneau */
+  --bg-panel-2:    #111820;      /* Fond des sous-zones */
+  --bg-input:      #0a0f16;      /* Fond des champs */
+
+  /* Couleurs d'accent */
+  --accent:        #00e5ff;      /* Cyan électrique — couleur signature */
+  --accent-dim:    rgba(0,229,255,.12);
+  --accent-glow:   0 0 14px rgba(0,229,255,.45);
+
+  /* Couleurs de force */
+  --color-weak:    #ff4560;      /* Rouge — Faible */
+  --color-medium:  #ffb800;      /* Ambre — Moyen */
+  --color-strong:  #00e676;      /* Vert — Fort */
+
+  /* Textes */
+  --text-primary:  #e2e8f0;
+  --text-secondary:#7a8fa8;
+  --text-muted:    #3d5065;
+
+  /* Bordures */
+  --border:        rgba(0,229,255,.12);
+  --border-hover:  rgba(0,229,255,.35);
+
+  /* Typographie */
+  --font-display:  'Orbitron', sans-serif;
+  --font-mono:     'JetBrains Mono', monospace;
+
+  /* Espacements */
+  --radius:        10px;
+  --radius-sm:     6px;
+  --gap:           1.5rem;
+
+  /* Transitions */
+  --transition:    0.2s ease;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   2. RESET & BASE
+────────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-mono);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   3. ARRIÈRE-PLAN ANIMÉ
+────────────────────────────────────────────────────────────────── */
+
+/* Grille cyberpunk en perspective */
+.bg-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+}
+
+/* Effet scanlines rétro */
+.bg-scanlines {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0px,
+    transparent 3px,
+    rgba(0,0,0,.18) 3px,
+    rgba(0,0,0,.18) 4px
+  );
+  pointer-events: none;
+  animation: scanline-drift 12s linear infinite;
+}
+
+@keyframes scanline-drift {
+  0%   { background-position: 0 0; }
+  100% { background-position: 0 48px; }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   4. EN-TÊTE
+────────────────────────────────────────────────────────────────── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(8,11,16,.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: .9rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+.logo-icon {
+  width: 28px;
+  height: 28px;
+  color: var(--accent);
+  filter: drop-shadow(var(--accent-glow));
+}
+
+.logo-text {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  color: var(--text-primary);
+  text-transform: uppercase;
+}
+
+.accent {
+  color: var(--accent);
+}
+
+.glow {
+  text-shadow: 0 0 20px rgba(0,229,255,.6), 0 0 60px rgba(0,229,255,.2);
+}
+
+/* Badge version */
+.version-badge {
+  font-size: .7rem;
+  font-weight: 500;
+  letter-spacing: .1em;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: .2rem .55rem;
+  border-radius: 20px;
+  opacity: .6;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   5. SECTION HERO
+────────────────────────────────────────────────────────────────── */
+.main-container {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem 4rem;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  animation: fade-in-down .6s ease both;
+}
+
+.hero-label {
+  font-size: .7rem;
+  letter-spacing: .22em;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: .75rem;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 6vw, 3.6rem);
+  font-weight: 900;
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: .9rem;
+  color: var(--text-secondary);
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   6. PANNEAU PRINCIPAL
+────────────────────────────────────────────────────────────────── */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  animation: fade-in-up .65s ease .1s both;
+  box-shadow:
+    0 0 0 1px rgba(0,229,255,.04),
+    0 24px 80px rgba(0,0,0,.6),
+    inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.panel-section {
+  padding: 2rem 2.5rem;
+}
+
+/* Titre de section */
+.section-title {
+  font-family: var(--font-display);
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 1.75rem;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+
+.section-num {
+  color: var(--accent);
+  font-size: .75rem;
+}
+
+/* Séparateur entre les deux sections */
+.panel-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .1rem 2.5rem;
+  background: var(--bg-panel-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  font-size: .72rem;
+  letter-spacing: .2em;
+  color: var(--text-muted);
+}
+
+/* ────────────────────────────────────────────────────────────────
+   7. CHAMP DE SAISIE
+────────────────────────────────────────────────────────────────── */
+.input-group {
+  margin-bottom: 1.25rem;
+}
+
+.input-label {
+  display: block;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: .55rem;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Icône cadenas à gauche */
+.input-icon {
+  position: absolute;
+  left: 1rem;
+  width: 16px;
+  height: 16px;
+  color: var(--text-muted);
+  pointer-events: none;
+  transition: color var(--transition);
+}
+
+.password-input {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: .12em;
+  color: var(--text-primary);
+  background: var(--bg-input);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: .9rem 3rem .9rem 2.75rem;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  caret-color: var(--accent);
+}
+
+/* État focus */
+.password-input:focus {
+  border-color: rgba(0,229,255,.5);
+  box-shadow: 0 0 0 3px rgba(0,229,255,.08), var(--accent-glow);
+}
+
+.password-input:focus ~ .input-icon,
+.input-wrapper:focus-within .input-icon {
+  color: var(--accent);
+}
+
+/* Placeholder */
+.password-input::placeholder {
+  color: var(--text-muted);
+  letter-spacing: .18em;
+  font-size: .95rem;
+}
+
+/* Bouton œil */
+.toggle-visibility {
+  position: absolute;
+  right: .85rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: .3rem;
+  color: var(--text-muted);
+  transition: color var(--transition);
+  display: flex;
+  align-items: center;
+  border-radius: 4px;
+}
+
+.toggle-visibility:hover { color: var(--accent); }
+
+.eye-icon {
+  width: 18px;
+  height: 18px;
+  display: block;
+}
+
+/* L'icône barrée est masquée par défaut; JS bascule la classe */
+.toggle-visibility .eye-closed { display: none; }
+.toggle-visibility.revealed .eye-open  { display: none; }
+.toggle-visibility.revealed .eye-closed { display: block; }
+
+/* ────────────────────────────────────────────────────────────────
+   8. INDICATEUR DE FORCE
+────────────────────────────────────────────────────────────────── */
+.strength-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: .55rem;
+}
+
+.strength-label {
+  font-family: var(--font-display);
+  font-size: .82rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  transition: color .35s ease;
+}
+
+.strength-score {
+  font-size: .72rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: .06em;
+  transition: color .35s ease;
+}
+
+/* États de force — modifient la couleur du label + score */
+.strength-label.weak,  .strength-score.weak  { color: var(--color-weak); }
+.strength-label.medium,.strength-score.medium { color: var(--color-medium); }
+.strength-label.strong,.strength-score.strong { color: var(--color-strong); }
+
+/* Barre de progression */
+.progress-track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,.05);
+  border-radius: 99px;
+  overflow: visible;
+  margin-bottom: .35rem;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 99px;
+  background: var(--color-weak);  /* couleur initiale (faible) */
+  transition: width .5s cubic-bezier(.4,0,.2,1), background .4s ease, box-shadow .4s ease;
+  position: relative;
+}
+
+/* Lueur de la barre selon la force */
+.progress-fill.weak   { background: var(--color-weak);   box-shadow: 0 0 8px rgba(255,69,96,.6); }
+.progress-fill.medium { background: var(--color-medium);  box-shadow: 0 0 8px rgba(255,184,0,.6); }
+.progress-fill.strong { background: var(--color-strong);  box-shadow: 0 0 8px rgba(0,230,118,.6); }
+
+/* Marqueurs 33% / 66% */
+.progress-markers { position: absolute; inset: 0; pointer-events: none; }
+.marker {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background: rgba(8,11,16,.6);
+  transform: translateX(-50%);
+}
+
+/* Légende */
+.progress-legend {
+  display: flex;
+  justify-content: space-between;
+  font-size: .62rem;
+  letter-spacing: .1em;
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   9. GRILLE DES CRITÈRES
+────────────────────────────────────────────────────────────────── */
+.criteria-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .65rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 520px) {
+  .criteria-grid { grid-template-columns: 1fr; }
+}
+
+.criterion {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: .65rem .9rem;
+  transition: border-color .3s ease, background .3s ease;
+}
+
+/* État validé */
+.criterion[data-met="true"] {
+  border-color: rgba(0,230,118,.35);
+  background: rgba(0,230,118,.05);
+}
+
+/* Icône du critère */
+.crit-icon-wrap {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255,255,255,.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background .3s ease;
+}
+
+.crit-icon-wrap svg {
+  width: 14px;
+  height: 14px;
+  color: var(--text-muted);
+  transition: color .3s ease;
+}
+
+.criterion[data-met="true"] .crit-icon-wrap {
+  background: rgba(0,230,118,.15);
+}
+
+.criterion[data-met="true"] .crit-icon-wrap svg {
+  color: var(--color-strong);
+}
+
+/* Texte du critère */
+.crit-text {
+  display: flex;
+  flex-direction: column;
+  gap: .1rem;
+}
+
+.crit-name {
+  font-size: .78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color .3s ease;
+}
+
+.criterion[data-met="true"] .crit-name {
+  color: var(--text-primary);
+}
+
+.crit-status {
+  font-size: .65rem;
+  color: var(--text-muted);
+  letter-spacing: .06em;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   10. BOÎTE DE CONSEILS
+────────────────────────────────────────────────────────────────── */
+.tips-box {
+  background: var(--bg-input);
+  border: 1.5px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-sm);
+  padding: 1rem 1.1rem;
+  animation: fade-in .3s ease;
+}
+
+.tips-header {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-family: var(--font-display);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: .65rem;
+}
+
+.tips-header svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+.tips-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .45rem;
+}
+
+.tips-list li {
+  font-size: .8rem;
+  color: var(--text-secondary);
+  padding-left: 1.1rem;
+  position: relative;
+  line-height: 1.5;
+}
+
+.tips-list li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   11. GÉNÉRATEUR — SLIDER
+────────────────────────────────────────────────────────────────── */
+.gen-length-row {
+  display: flex;
+  align-items: baseline;
+  gap: .5rem;
+  margin-bottom: .55rem;
+}
+
+.gen-label {
+  font-size: .72rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.gen-length-val {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+  min-width: 2ch;
+  text-align: right;
+}
+
+.gen-label-unit {
+  font-size: .72rem;
+  color: var(--text-muted);
+}
+
+/* Slider personnalisé */
+.length-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,.06);
+  border-radius: 99px;
+  outline: none;
+  cursor: pointer;
+  accent-color: var(--accent);
+  margin-bottom: .3rem;
+}
+
+.length-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 8px rgba(0,229,255,.6);
+  cursor: pointer;
+  transition: transform .15s ease;
+}
+
+.length-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.length-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 0 8px rgba(0,229,255,.6);
+}
+
+/* Graduations sous le slider */
+.slider-ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: .62rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  letter-spacing: .06em;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   12. GÉNÉRATEUR — OPTIONS (CHECKBOXES)
+────────────────────────────────────────────────────────────────── */
+.gen-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .55rem;
+  margin-bottom: 1.4rem;
+}
+
+@media (max-width: 480px) {
+  .gen-options { grid-template-columns: 1fr; }
+}
+
+/* Label de case à cocher */
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  font-size: .8rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color var(--transition);
+  user-select: none;
+}
+
+.checkbox-label:hover { color: var(--text-primary); }
+
+/* Masquer la case native */
+.checkbox-label input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Case stylisée */
+.checkbox-custom {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border-hover);
+  border-radius: 4px;
+  background: var(--bg-input);
+  flex-shrink: 0;
+  position: relative;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.checkbox-label input:checked + .checkbox-custom {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Coche */
+.checkbox-label input:checked + .checkbox-custom::after {
+  content: '';
+  position: absolute;
+  left: 3px;
+  top: 1px;
+  width: 6px;
+  height: 9px;
+  border: 2px solid #080b10;
+  border-top: none;
+  border-left: none;
+  transform: rotate(45deg);
+}
+
+/* ────────────────────────────────────────────────────────────────
+   13. ZONE MOT DE PASSE GÉNÉRÉ
+────────────────────────────────────────────────────────────────── */
+.generated-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: .9rem 1.1rem;
+  margin-bottom: .55rem;
+  min-height: 52px;
+}
+
+.generated-password {
+  font-family: var(--font-mono);
+  font-size: .88rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  word-break: break-all;
+  letter-spacing: .08em;
+  flex: 1;
+  line-height: 1.5;
+}
+
+/* Bouton copier */
+.copy-btn {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  padding: .4rem .5rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.copy-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+.copy-icon, .check-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Par défaut la coche est invisible */
+.copy-btn .check-icon { display: none; }
+
+/* Après copie : afficher la coche, masquer le crayon */
+.copy-btn.copied .copy-icon  { display: none; }
+.copy-btn.copied .check-icon { display: block; color: var(--color-strong); }
+.copy-btn.copied { border-color: var(--color-strong); }
+
+/* Entropie */
+.entropy-info {
+  font-size: .7rem;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  letter-spacing: .06em;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   14. BOUTONS
+────────────────────────────────────────────────────────────────── */
+/* Bouton principal (Générer) */
+.btn-generate {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: .6rem;
+  font-family: var(--font-display);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: var(--bg-base);
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius);
+  padding: .95rem;
+  cursor: pointer;
+  transition: background var(--transition), box-shadow var(--transition), transform .15s ease;
+  box-shadow: 0 4px 20px rgba(0,229,255,.3);
+  margin-bottom: .75rem;
+}
+
+.btn-generate svg {
+  width: 18px;
+  height: 18px;
+  animation: spin-slow 4s linear infinite;
+}
+
+.btn-generate:hover {
+  background: #33edff;
+  box-shadow: 0 6px 28px rgba(0,229,255,.5);
+  transform: translateY(-1px);
+}
+
+.btn-generate:active { transform: translateY(0); }
+
+/* Bouton secondaire (Analyser le généré) */
+.btn-secondary {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  color: var(--text-secondary);
+  background: transparent;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: .75rem;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition), background var(--transition);
+}
+
+.btn-secondary:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: var(--accent-dim);
+}
+
+/* ────────────────────────────────────────────────────────────────
+   15. PIED DE PAGE
+────────────────────────────────────────────────────────────────── */
+.footer {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 1.5rem 1rem 2rem;
+  font-size: .7rem;
+  color: var(--text-muted);
+  letter-spacing: .08em;
+  border-top: 1px solid var(--border);
+}
+
+/* ────────────────────────────────────────────────────────────────
+   16. ANIMATIONS
+────────────────────────────────────────────────────────────────── */
+@keyframes fade-in-down {
+  from { opacity: 0; transform: translateY(-18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(22px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Rotation de l'icône du bouton générer */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Animation pulse sur le critère quand il passe à "validé" */
+@keyframes pulse-green {
+  0%   { box-shadow: 0 0 0 0 rgba(0,230,118,.4); }
+  70%  { box-shadow: 0 0 0 8px rgba(0,230,118,0); }
+  100% { box-shadow: 0 0 0 0 rgba(0,230,118,0); }
+}
+
+.criterion.just-met {
+  animation: pulse-green .5s ease;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   17. RESPONSIVE
+────────────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .panel-section {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .panel-divider {
+    padding: .4rem 1.25rem;
+  }
+
+  .hero {
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .main-container {
+    padding: 2rem .75rem 3rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .generated-password {
+    font-size: .76rem;
+  }
+}
